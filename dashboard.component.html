@@ -1,0 +1,115 @@
+<div class="dashboard">
+  <h1>Centroid Analytics</h1>
+
+  <div class="date-range">
+    <label for="startDate">Start Date:</label>
+    <input
+      type="date"
+      id="startDate"
+      [(ngModel)]="startDate"
+      (change)="onDateChange()"
+    />
+    <label for="endDate">End Date:</label>
+    <input
+      type="date"
+      id="endDate"
+      [(ngModel)]="endDate"
+      (change)="onDateChange()"
+    />
+  </div>
+
+  <div class="unit-type-buttons">
+    <button
+      (click)="onUnitTypeChange('All')"
+      [class.active]="selectedUnitType === 'All'"
+    >
+      All
+    </button>
+    <button
+      (click)="onUnitTypeChange('Studio')"
+      [class.active]="selectedUnitType === 'Studio'"
+    >
+      Studio
+    </button>
+    <button
+      (click)="onUnitTypeChange('Alcove')"
+      [class.active]="selectedUnitType === 'Alcove'"
+    >
+      Alcove
+    </button>
+    <button
+      (click)="onUnitTypeChange('1-Beds')"
+      [class.active]="selectedUnitType === '1-Beds'"
+    >
+      1-Beds
+    </button>
+    <button
+      (click)="onUnitTypeChange('2-Beds')"
+      [class.active]="selectedUnitType === '2-Beds'"
+    >
+      2-Beds
+    </button>
+    <button
+      (click)="onUnitTypeChange('3-Beds')"
+      [class.active]="selectedUnitType === '3-Beds'"
+    >
+      3-Beds
+    </button>
+  </div>
+
+  <div class="analytics-summary">
+    <div class="summary-card">
+      <h3>Users</h3>
+      <p>{{ analyticsSummary.users }}</p>
+    </div>
+    <div class="summary-card">
+      <h3>Total Views</h3>
+      <p>{{ analyticsSummary.totalViews }}</p>
+    </div>
+    <div class="summary-card">
+      <h3>Avg. Engagement Time (min)</h3>
+      <p>{{ analyticsSummary.engagementTime }}</p>
+    </div>
+    <div class="summary-card">
+      <h3>Conversions</h3>
+      <p>{{ analyticsSummary.conversions }}</p>
+    </div>
+  </div>
+
+  <div class="unit-type-data">
+    <h2>{{ selectedUnitType }} Traffic</h2>
+    <div class="unit-cards">
+      <div
+        class="unit-card"
+        *ngFor="let unit of unitTypeData[selectedUnitType].units"
+        [style.width]="getCardSize(unit.sizeScore)"
+        [style.height]="getCardSize(unit.sizeScore)"
+        [style.background-color]="getUnitTypeColor(unit.unitType)"
+      >
+        <div class="card-content">
+          <div class="rank">Rank: {{ unit.rank }}</div>
+          <div class="featured-tag" *ngIf="unit.featured">Featured Unit</div>
+          <div class="pinned-tag" *ngIf="unit.pinned">Pinned Unit</div>
+          <h3>{{ unit.unitNumber }} - {{ unit.unitType }}</h3>
+          <p>Views: {{ unit.views }}</p>
+          <p>Users: {{ unit.users }}</p>
+          <p>VPU: {{ unit.viewsPerUser.toFixed(2) }}</p>
+          <p>ENG: {{ unit.avgEngagementTime.toFixed(2) }}s</p>
+          <p>Events: {{ unit.eventCount }}</p>
+          <p class="availability">Available: {{ unit.availability }}</p>
+          <div class="button-group">
+            <button (click)="featureUnit(unit)">
+              {{ unit.featured ? 'Unfeature' : 'Feature' }}
+            </button>
+            <button (click)="pinUnit(unit)">
+              {{ unit.pinned ? 'Unpin' : 'Pin' }}
+            </button>
+            <button (click)="viewUnit(unit.unitNumber, unit.unitType)">
+              View Unit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

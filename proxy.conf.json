@@ -1,0 +1,8 @@
+{
+  "/analyticsdata": {
+    "target": "https://analyticsdata.googleapis.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
